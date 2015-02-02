@@ -25,7 +25,7 @@
 /* global Rickshaw */
 
 angular.module('angular-rickshaw', [])
-        .directive('rickshaw', function($compile) {
+        .directive('rickshaw', function($compile, $window) {
             return {
                 restrict: 'EA',
                 scope: {
@@ -117,6 +117,9 @@ angular.module('angular-rickshaw', [])
                         }
                     }
 
+                    // Update graph on window resize
+                    angular.element($window).bind('resize', update);
+
                     var optionsWatch = scope.$watch('options', function(newValue, oldValue) {
                         if (!angular.equals(newValue, oldValue)) {
                             update();
@@ -149,7 +152,7 @@ angular.module('angular-rickshaw', [])
 						seriesWatch();
 						featuresWatch();
 					});
-					
+
                     update();
                 },
                 controller: function($scope, $element, $attrs) {
